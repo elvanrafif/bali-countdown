@@ -1,0 +1,253 @@
+{
+  "targetDate": "2026-06-12T10:00:00",
+  "itinerary": [
+    {
+      "day": 1,
+      "date": "June 12, 2026",
+      "activities": [
+  {
+    "id": "1-1",
+    "time": "04:00 WIB",
+    "title": "Meet Up at Terminal 2",
+    "description": "Please don't be late! If you're bringing a lot of luggage or living far away, make sure to leave early to avoid any rush.",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Terminal+2+Soekarno+Hatta+Airport"
+  },
+  {
+    "id": "1-2",
+    "time": "05:00 WIB",
+    "title": "Flight Boarding",
+    "description": "Ensure your cabin baggage and checked luggage are properly separated. Double-check everything so nothing gets left behind.",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Terminal+2+Soekarno+Hatta+Airport"
+  },
+  {
+    "id": "1-2b",
+    "time": "06:00 WIB",
+    "title": "Flight OTW Bali ✈️",
+    "description": "Sit back, relax, and enjoy the flight — Bali is just around two hours away. Get some rest or grab a snack!",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+  },
+  {
+    "id": "1-3",
+    "time": "08:00 WITA",
+    "title": "Arrival at Ngurah Rai",
+    "description": "Collect your luggage at the carousel and don't forget to take a group photo at the iconic 'Welcome to Bali' sign!",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+  },
+  {
+    "id": "1-4",
+    "time": "08:30 WITA",
+    "title": "Pick Up Rental Car",
+    "description": "Head to the airport parking area to pick up the rental car. Remember to do a quick condition check before driving off.",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+  },
+  {
+    "id": "1-5",
+    "time": "09:30 WITA",
+    "title": "STUJA di Pantai",
+    "description": "Chill and enjoy the morning vibes at STUJA beach club in Sanur. Perfect spot to start the Bali trip right!",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=STUJA+Sanur+Bali"
+  },
+  {
+    "id": "1-7",
+    "time": "13:00 WITA",
+    "title": "Head to Ubud",
+    "description": "Refuel if necessary and grab some more snacks for the trip down to our villa in Ubud.",
+    "mapsUrl": ""
+  },
+  {
+    "id": "1-8",
+    "time": "14:30 WITA",
+    "title": "Villa Check-in",
+    "description": "Arrive at the villa, unpack, and take a moment to freshen up and rest after the long journey.",
+    "mapsUrl": ""
+  },
+  {
+    "id": "1-9",
+    "time": "19:00 WITA",
+    "title": "Stroll Around Jl. Gootama",
+    "description": "Take a relaxed evening walk around Jalan Gootama, enjoying the vibrant Ubud nightlife and boutique shops.",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Jalan+Gootama+Ubud"
+  },
+  {
+    "id": "1-10",
+    "time": "20:30 WITA",
+    "title": "Dinner at Pison Ubud",
+    "description": "Wrap up our first day with a cozy dinner, great coffee, and live music at Pison.",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Pison+Ubud"
+  }
+]
+    },
+    {
+      "day": 2,
+      "date": "June 13, 2026",
+      "activities": [
+        {
+          "id": "2-0",
+          "time": "06:00 - 07:30 WITA",
+          "title": "Free Time — Morning Ubud",
+          "description": "Free morning in Ubud. Stroll through the market, grab coffee at a local cafe, or just soak in the peaceful early morning vibes before the day begins.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "2-1",
+          "time": "08:00 WITA",
+          "title": "ATV Ubud",
+          "description": "Kick off the day with an adrenaline-pumping ATV ride through Ubud's rice fields and jungle trails.",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=ATV+Ubud+Bali"
+        },
+        {
+          "id": "2-2",
+          "time": "12:00 WITA",
+          "title": "Checkout Villa & Head to Seminyak",
+          "description": "Pack up, check out, and hit the road to Seminyak.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "2-3",
+          "time": "14:00 WITA",
+          "title": "Villa Check-in Seminyak",
+          "description": "Arrive at the Seminyak villa, freshen up, and get ready for the rest of the day.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "2-4",
+          "time": "14:00 - 18:00 WITA",
+          "title": "Free Time — Each Family",
+          "description": "Time to explore on your own! Each family is free to do whatever they like — rest, explore Seminyak, spa, shopping, or just chill by the pool.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "2-5",
+          "time": "19:00 WITA",
+          "title": "Nasi Tempong Indra",
+          "description": "Dinner at the legendary Nasi Tempong Indra — bold flavors, generous portions, pure Bali.",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Nasi+Tempong+Indra+Seminyak"
+        },
+        {
+          "id": "2-6",
+          "time": "20:00 - 23:00 WITA",
+          "title": "Free Time — Night Out",
+          "description": "The night is yours! Explore Seminyak's nightlife, go bar hopping, or just relax at the villa. Everyone does their own thing.",
+          "mapsUrl": ""
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "June 14, 2026",
+      "activities": [
+        {
+          "id": "3-1",
+          "time": "07:00 - 09:00 WITA",
+          "title": "Free Time — Morning",
+          "description": "Wake up slow, grab breakfast on your own, and enjoy the morning however you like before the day kicks off.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "3-2",
+          "time": "09:30 WITA",
+          "title": "Gigi Susu or Sunday Market La Brisa",
+          "description": "Pick your vibe — grab coffee and milk bread at Gigi Susu, or hit the Sunday Market at La Brisa for local vendors, handmade goods, and fresh food stalls. Either way, it's a W.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "3-5",
+          "time": "11:00 - 16:00 WITA",
+          "title": "Free Time — Seminyak Afternoon",
+          "description": "Free block — pool time, nap, grab lunch, or explore the Seminyak strip. Also a solid window to pick up souvenirs and oleh-oleh, so if you've been putting it off, now's the time. Don't wait till the last day.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "3-6",
+          "time": "17:00 WITA",
+          "title": "Potato Head Beach Club",
+          "description": "Sunset session at the legendary Potato Head. Drinks, music, and one of the best sunsets in Bali. Don't miss it.",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=Potato+Head+Beach+Club+Seminyak"
+        },
+        {
+          "id": "3-7",
+          "time": "20:00 - 22:00 WITA",
+          "title": "Free Time — Night Out",
+          "description": "Two hours of freedom — bar hop, explore the area, or just cruise around Seminyak at night. Regroup by 22:00.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "3-8",
+          "time": "22:00 WITA",
+          "title": "Back to Villa & Rest Up",
+          "description": "Time to call it a night. Head back to the villa, wind down, and get some proper rest for the last day.",
+          "mapsUrl": ""
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "date": "June 15, 2026",
+      "activities": [
+        {
+          "id": "4-1",
+          "time": "07:00 - 11:00 WITA",
+          "title": "Free Time — Last Morning",
+          "description": "Final free block in Bali. Sleep in, take a last dip in the pool, or use this window to grab any remaining oleh-oleh. This is your last chance — don't sleep on it.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-2",
+          "time": "11:30 WITA",
+          "title": "Checkout Villa",
+          "description": "Pack everything up, double-check the rooms, and check out. Don't leave anything behind — seriously, check under the bed.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-3",
+          "time": "12:00 WITA",
+          "title": "Lunch Together — TBD",
+          "description": "One last meal together as a squad. Location TBD — we'll figure it out on the day. Whatever it is, make it count.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-4",
+          "time": "13:00 WITA",
+          "title": "Checkpoint at Ngurah Rai",
+          "description": "Everyone meet up at Ngurah Rai International Airport. Do a headcount, sort out luggage, and get ready to check in.",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+        },
+        {
+          "id": "4-5",
+          "time": "13:30 WITA",
+          "title": "Flight Boarding — Back to Jakarta",
+          "description": "Board the flight home. Bali was real — now it's time to bring those memories back to the mainland.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-6",
+          "time": "15:00 WITA",
+          "title": "Flight OTW Jakarta ✈️",
+          "description": "We're up in the air. Sit back, relax, and let the Bali vibes marinate one last time before reality hits.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-7",
+          "time": "17:00 WIB",
+          "title": "Touchdown Jakarta",
+          "description": "We made it back safe and sound. Welcome home, everyone. Jakarta hits different after Bali.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-8",
+          "time": "17:30 WIB",
+          "title": "Grateful & Heading Home",
+          "description": "Take a moment — the planning paid off, the trip was a banger, and everyone got home safe. That's a W. Now go home, hug your family, and rest up.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-9",
+          "time": "21:00 WIB",
+          "title": "HAKA Dimsum Siliwangi — Depok",
+          "description": "<strong><u>EVALUASI</u></strong>",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=HAKA+Dimsum+Siliwangi+Depok"
+        }
+      ]
+    }
+  ]
+}

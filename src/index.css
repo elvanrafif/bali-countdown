@@ -1,0 +1,33 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Ocean Noir Palette */
+    --background: 210 17% 98%;
+    --foreground: 215 30% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 215 30% 10%;
+    --primary: 201 100% 36%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 191 100% 42%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 210 20% 94%;
+    --muted-foreground: 215 15% 48%;
+    --border: 215 20% 88%;
+    --input: 215 20% 88%;
+    --ring: 201 100% 36%;
+    --radius: 0.75rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  }
+}
