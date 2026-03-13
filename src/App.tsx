@@ -63,7 +63,7 @@ function openGoogleCalendar(weeksBefore: number) {
 
   const title = encodeURIComponent(`🌴 Reminder: Bali Trip is in ${label}!`);
   const desc = encodeURIComponent(
-    `The Bali trip is ${label} away — time to check the itinerary, pack your bags, and make sure everything's sorted.\n\n📋 Full itinerary: https://github.com/elvanrafif/bali-countdown\n\n✈️ Departure: June 12, 2026`
+    `The Bali trip is ${label} away — time to check the itinerary, pack your bags, and make sure everything's sorted.\n\n📋 Full itinerary: https://2026bali.vercel.app\n\n✈️ Departure: June 12, 2026`
   );
 
   const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(reminderDate)}/${fmt(end)}&details=${desc}`;
