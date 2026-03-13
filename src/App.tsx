@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Plane, UtensilsCrossed, Home, Car, Waves, Camera, CalendarDays, Users, Luggage, Footprints, Bike, Coffee, Armchair } from 'lucide-react';
+import { MapPin, Plane, UtensilsCrossed, Home, Car, Waves, Camera, CalendarDays, Luggage, Footprints, Bike, Coffee, Armchair, CalendarPlus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCountdown } from '@/hooks/useCountdown';
 import { HeroMap } from '@/components/HeroMap';
@@ -43,6 +43,74 @@ function getCategory(title: string, description: string): Category {
   if (t.includes('beach') || t.includes('pantai') || t.includes('melasti') || t.includes('pandawa') || t.includes('jimbaran'))
     return { icon: Waves,           label: 'Beach',   bg: 'bg-cyan-50',    text: 'text-cyan-600',   accent: 'bg-cyan-100',    line: 'bg-cyan-200' };
   return   { icon: Camera,          label: 'Explore', bg: 'bg-violet-50',  text: 'text-violet-600', accent: 'bg-violet-100',  line: 'bg-violet-200' };
+}
+
+// --- ADD TO CALENDAR ---
+function openGoogleCalendar(weeksBefore: number) {
+  const tripDate = new Date('2026-06-12T10:00:00+08:00');
+  const reminderDate = new Date(tripDate);
+  reminderDate.setDate(reminderDate.getDate() - weeksBefore * 7);
+
+  const fmt = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+  const end = new Date(reminderDate);
+  end.setHours(end.getHours() + 1);
+
+  const label =
+    weeksBefore === 1 ? '1 minggu' :
+    weeksBefore === 2 ? '2 minggu' : '1 bulan';
+
+  const title = encodeURIComponent(`🌴 Reminder: Bali Trip ${label} lagi!`);
+  const desc = encodeURIComponent(
+    `Trip ke Bali udah tinggal ${label} lagi — saatnya cek itinerary, siapin koper, dan pastiin semua beres.\n\n📋 Itinerary lengkap: https://github.com/elvanrafif/bali-countdown\n\n✈️ Keberangkatan: 12 Juni 2026`
+  );
+
+  const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(reminderDate)}/${fmt(end)}&details=${desc}`;
+  window.open(url, '_blank');
+}
+
+function AddToCalendarModal({ onClose }: { onClose: () => void }) {
+  const options = [
+    { label: '1 minggu sebelum', weeks: 1 },
+    { label: '2 minggu sebelum', weeks: 2 },
+    { label: '1 bulan sebelum', weeks: 4 },
+  ];
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
+      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: 10 }}
+        transition={{ duration: 0.18, ease: 'easeOut' }}
+        className="relative bg-white rounded-2xl shadow-2xl p-5 w-full max-w-xs z-10"
+        onClick={e => e.stopPropagation()}
+      >
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <p className="font-bold text-sm text-foreground">Tambah ke Google Calendar</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Pilih kapan mau diingatkan</p>
+          </div>
+          <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+        <div className="space-y-2">
+          {options.map(opt => (
+            <button
+              key={opt.weeks}
+              onClick={() => { openGoogleCalendar(opt.weeks); onClose(); }}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-xl border border-border hover:bg-slate-50 hover:border-cyan-300 transition-all text-sm font-medium text-left group"
+            >
+              <CalendarDays className="w-4 h-4 text-cyan-500 shrink-0" />
+              <span>{opt.label}</span>
+            </button>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
 }
 
 // --- COUNTDOWN ---
@@ -90,6 +158,7 @@ function Countdown({ targetDate }: { targetDate: string }) {
 export default function App() {
   const containerRef = useRef(null);
   const [activeDay, setActiveDay] = useState(1);
+  const [calendarOpen, setCalendarOpen] = useState(false);
   const currentDay = data.itinerary.find(d => d.day === activeDay)!;
 
   return (
@@ -129,11 +198,18 @@ export default function App() {
             </motion.div>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.3 }}
               className="flex flex-wrap items-center justify-center lg:justify-start gap-2">
-              {[{ icon: MapPin, text: 'Bali, Indonesia' }, { icon: CalendarDays, text: `${data.itinerary.length} Days` }, { icon: Users, text: 'Group Trip' }].map(({ icon: Icon, text }) => (
+              {[{ icon: MapPin, text: 'Bali, Indonesia' }, { icon: CalendarDays, text: `${data.itinerary.length} Days` }].map(({ icon: Icon, text }) => (
                 <div key={text} className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 bg-white/8 border border-white/12 px-3 py-1.5 rounded-full backdrop-blur-sm">
                   <Icon className="w-3 h-3 text-cyan-400" />{text}
                 </div>
               ))}
+              <button
+                onClick={() => setCalendarOpen(true)}
+                className="flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-cyan-500/15 border border-cyan-400/30 px-3 py-1.5 rounded-full backdrop-blur-sm hover:bg-cyan-500/25 hover:border-cyan-400/50 transition-all"
+              >
+                <CalendarPlus className="w-3 h-3" />
+                Add to Calendar
+              </button>
             </motion.div>
           </motion.div>
 
@@ -279,6 +355,10 @@ export default function App() {
           <p className="text-xs text-muted-foreground">June 12–14, 2026 · Kuta, Sanur, Ubud, Seminyak, Canggu</p>
         </div>
       </main>
+
+      <AnimatePresence>
+        {calendarOpen && <AddToCalendarModal onClose={() => setCalendarOpen(false)} />}
+      </AnimatePresence>
     </div>
   );
 }
