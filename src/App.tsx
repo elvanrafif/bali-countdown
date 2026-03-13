@@ -58,12 +58,12 @@ function openGoogleCalendar(weeksBefore: number) {
   end.setHours(end.getHours() + 1);
 
   const label =
-    weeksBefore === 1 ? '1 minggu' :
-    weeksBefore === 2 ? '2 minggu' : '1 bulan';
+    weeksBefore === 1 ? '1 week' :
+    weeksBefore === 2 ? '2 weeks' : '1 month';
 
-  const title = encodeURIComponent(`🌴 Reminder: Bali Trip ${label} lagi!`);
+  const title = encodeURIComponent(`🌴 Reminder: Bali Trip is in ${label}!`);
   const desc = encodeURIComponent(
-    `Trip ke Bali udah tinggal ${label} lagi — saatnya cek itinerary, siapin koper, dan pastiin semua beres.\n\n📋 Itinerary lengkap: https://github.com/elvanrafif/bali-countdown\n\n✈️ Keberangkatan: 12 Juni 2026`
+    `The Bali trip is ${label} away — time to check the itinerary, pack your bags, and make sure everything's sorted.\n\n📋 Full itinerary: https://github.com/elvanrafif/bali-countdown\n\n✈️ Departure: June 12, 2026`
   );
 
   const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${fmt(reminderDate)}/${fmt(end)}&details=${desc}`;
@@ -72,9 +72,9 @@ function openGoogleCalendar(weeksBefore: number) {
 
 function AddToCalendarModal({ onClose }: { onClose: () => void }) {
   const options = [
-    { label: '1 minggu sebelum', weeks: 1 },
-    { label: '2 minggu sebelum', weeks: 2 },
-    { label: '1 bulan sebelum', weeks: 4 },
+    { label: '1 week before', weeks: 1 },
+    { label: '2 weeks before', weeks: 2 },
+    { label: '1 month before', weeks: 4 },
   ];
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={onClose}>
@@ -89,8 +89,8 @@ function AddToCalendarModal({ onClose }: { onClose: () => void }) {
       >
         <div className="flex items-center justify-between mb-4">
           <div>
-            <p className="font-bold text-sm text-foreground">Tambah ke Google Calendar</p>
-            <p className="text-xs text-muted-foreground mt-0.5">Pilih kapan mau diingatkan</p>
+            <p className="font-bold text-sm text-foreground">Add to Google Calendar</p>
+            <p className="text-xs text-muted-foreground mt-0.5">Choose when to be reminded</p>
           </div>
           <button onClick={onClose} className="text-muted-foreground hover:text-foreground transition-colors">
             <X className="w-4 h-4" />
@@ -205,9 +205,9 @@ export default function App() {
               ))}
               <button
                 onClick={() => setCalendarOpen(true)}
-                className="flex items-center gap-1.5 text-xs font-semibold text-cyan-300 bg-cyan-500/15 border border-cyan-400/30 px-3 py-1.5 rounded-full backdrop-blur-sm hover:bg-cyan-500/25 hover:border-cyan-400/50 transition-all"
+                className="flex items-center gap-1.5 text-xs font-semibold text-slate-300 bg-white/8 border border-white/12 px-3 py-1.5 rounded-full backdrop-blur-sm hover:bg-white/15 transition-all"
               >
-                <CalendarPlus className="w-3 h-3" />
+                <CalendarPlus className="w-3 h-3 text-cyan-400" />
                 Add to Calendar
               </button>
             </motion.div>
