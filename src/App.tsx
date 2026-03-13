@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Plane, UtensilsCrossed, Home, Car, Waves, Camera, CalendarDays, Luggage, Footprints, Bike, Coffee, Armchair, CalendarPlus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -113,6 +113,80 @@ function AddToCalendarModal({ onClose }: { onClose: () => void }) {
   );
 }
 
+// --- FLOATING PLANES ---
+const HERO_W = 1440;
+const HERO_H = 680;
+
+function randomEdgePoint(): [number, number] {
+  const edge = Math.floor(Math.random() * 4);
+  const t = 0.1 + Math.random() * 0.8;
+  switch (edge) {
+    case 0:  return [0,       t * HERO_H];
+    case 1:  return [HERO_W,  t * HERO_H];
+    case 2:  return [t * HERO_W, 0];
+    default: return [t * HERO_W, HERO_H];
+  }
+}
+
+function generateFlightPath(): string {
+  const [x1, y1] = randomEdgePoint();
+  const [x2, y2] = randomEdgePoint();
+  const cp1x = x1 + (x2 - x1) * 0.3 + (Math.random() - 0.5) * 500;
+  const cp1y = y1 + (y2 - y1) * 0.3 + (Math.random() - 0.5) * 350;
+  const cp2x = x1 + (x2 - x1) * 0.7 + (Math.random() - 0.5) * 500;
+  const cp2y = y1 + (y2 - y1) * 0.7 + (Math.random() - 0.5) * 350;
+  return `M ${x1.toFixed(0)},${y1.toFixed(0)} C ${cp1x.toFixed(0)},${cp1y.toFixed(0)} ${cp2x.toFixed(0)},${cp2y.toFixed(0)} ${x2.toFixed(0)},${y2.toFixed(0)}`;
+}
+
+function PlaneIcon({ scale = 1 }: { scale?: number }) {
+  return (
+    <svg width={24 * scale} height={24 * scale} viewBox="-12 -10 24 20" fill="white">
+      <path d="M 12,0 C 8,-1.5 2,-2 -9,-1.5 L -9,1.5 C 2,2 8,1.5 12,0 Z" />
+      <path d="M 3,-1.5 L 5.5,-9.5 L 8,-9.5 L 5,0 L 8,9.5 L 5.5,9.5 L 3,1.5 Z" opacity={0.9} />
+      <path d="M -6,-1 L -7.5,-5 L -5.5,-5 L -4,0 L -5.5,5 L -7.5,5 L -6,1 Z" opacity={0.85} />
+      <path d="M -5,0 L -6.5,-4.5 L -4.5,-4.5 L -3.5,-1 Z" opacity={0.75} />
+    </svg>
+  );
+}
+
+function FloatingPlanes() {
+  const configs = useMemo(() =>
+    Array.from({ length: 6 }, () => ({
+      path:     generateFlightPath(),
+      duration: 14 + Math.random() * 28,
+      delay:    Math.random() * 22,
+      opacity:  0.10 + Math.random() * 0.14,
+      scale:    0.6  + Math.random() * 0.45,
+    })),
+  []);
+
+  return (
+    <>
+      {configs.map((cfg, i) => (
+        <motion.div
+          key={i}
+          className="absolute pointer-events-none z-[15]"
+          style={{
+            offsetPath: `path("${cfg.path}")`,
+            offsetRotate: 'auto',
+          } as React.CSSProperties}
+          initial={{ offsetDistance: '0%', opacity: 0 }}
+          animate={{
+            offsetDistance: ['0%', '100%'],
+            opacity: [0, cfg.opacity, cfg.opacity, cfg.opacity, 0],
+          }}
+          transition={{
+            offsetDistance: { duration: cfg.duration, repeat: Infinity, ease: 'linear', delay: cfg.delay },
+            opacity: { duration: cfg.duration, repeat: Infinity, times: [0, 0.05, 0.5, 0.95, 1], delay: cfg.delay },
+          }}
+        >
+          <PlaneIcon scale={cfg.scale} />
+        </motion.div>
+      ))}
+    </>
+  );
+}
+
 // --- COUNTDOWN ---
 function Countdown({ targetDate }: { targetDate: string }) {
   const time = useCountdown(targetDate);
@@ -169,6 +243,7 @@ export default function App() {
         className="relative overflow-hidden flex flex-col"
         style={{ background: 'linear-gradient(145deg, #000A12 0%, #001525 45%, #000D1A 100%)' }}
       >
+        <FloatingPlanes />
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 sm:px-10 pt-16 sm:pt-20 pb-4 flex flex-col lg:flex-row items-center gap-6 lg:gap-10 min-h-[100svh] lg:min-h-0 lg:h-[680px]">
 
           {/* LEFT */}
@@ -239,9 +314,6 @@ export default function App() {
         <div className="mb-10 sm:mb-12">
           <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary mb-2">Itinerary</p>
           <h2 className="text-3xl sm:text-4xl font-black tracking-tight">The Plan — YMMA.</h2>
-          <p className="text-xs sm:text-sm text-muted-foreground mt-3 max-w-lg leading-relaxed">
-            Heads up — <strong>this plan is lowkey flexible.</strong> Stuff happens, vibes shift, and we roll with it. No cap. But don't be that person who ghosts the group schedule and leaves everyone hanging. Read the room, manage your time, and let's keep it W for the whole squad. 🤙
-          </p>
         </div>
 
         {/* Day tabs */}
@@ -350,9 +422,10 @@ export default function App() {
         </AnimatePresence>
 
         {/* Footer */}
-        <div className="mt-16 pt-10 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm font-bold text-foreground/75">Safe travels, see you in Bali 🌴</p>
-          <p className="text-xs text-muted-foreground">June 12–14, 2026 · Kuta, Sanur, Ubud, Seminyak, Canggu</p>
+        <div className="mt-16 pt-10 border-t border-border/40 flex flex-col items-center gap-4 text-center">
+          <p className="text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
+            Heads up — <strong>this plan is lowkey flexible.</strong> Stuff happens, vibes shift, and we roll with it. No cap. But don't be that person who ghosts the group schedule and leaves everyone hanging. Read the room, manage your time, and let's keep it W for the whole squad. 🤙
+          </p>
         </div>
       </main>
 
