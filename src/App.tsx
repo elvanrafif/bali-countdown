@@ -1,4 +1,4 @@
-import { useRef, useState, useMemo } from 'react';
+import { useRef, useState, useMemo, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Plane, UtensilsCrossed, Home, Car, Waves, Camera, CalendarDays, Luggage, Footprints, Bike, Coffee, Armchair, CalendarPlus, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -187,6 +187,220 @@ function FloatingPlanes() {
   );
 }
 
+// --- WEATHER ---
+type WeatherData = { temp: number; code: number; humidity: number; wind: number };
+
+function wmoInfo(code: number): { label: string; emoji: string } {
+  if (code === 0)                    return { label: 'Clear sky',       emoji: '☀️'  };
+  if (code <= 3)                     return { label: 'Partly cloudy',   emoji: '⛅'  };
+  if (code <= 49)                    return { label: 'Foggy',           emoji: '🌫️' };
+  if (code <= 67)                    return { label: 'Rainy',           emoji: '🌧️' };
+  if (code <= 82)                    return { label: 'Rain showers',    emoji: '🌦️' };
+  if (code <= 99)                    return { label: 'Thunderstorm',    emoji: '⛈️' };
+  return                                    { label: 'Unknown',         emoji: '🌡️' };
+}
+
+function WeatherWidget() {
+  const [weather, setWeather] = useState<WeatherData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('https://api.open-meteo.com/v1/forecast?latitude=-8.4095&longitude=115.1889&current=temperature_2m,weather_code,relative_humidity_2m,wind_speed_10m&timezone=Asia/Makassar')
+      .then(r => r.json())
+      .then(d => {
+        setWeather({
+          temp:     Math.round(d.current.temperature_2m),
+          code:     d.current.weather_code,
+          humidity: d.current.relative_humidity_2m,
+          wind:     Math.round(d.current.wind_speed_10m),
+        });
+        setLoading(false);
+      })
+      .catch(() => setLoading(false));
+  }, []);
+
+  if (loading || !weather) return null;
+
+  const { label, emoji } = wmoInfo(weather.code);
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -6 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 1.6, duration: 0.6 }}
+      className="absolute top-[37%] left-[40%] -translate-x-1/2 z-10 flex items-center gap-2 pointer-events-none"
+    >
+      <span className="text-base leading-none" style={{ filter: 'drop-shadow(0 0 6px rgba(0,180,216,0.4))' }}>{emoji}</span>
+      <div style={{ textShadow: '0 1px 8px rgba(0,0,0,0.8)' }}>
+        <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-cyan-400/70 leading-none mb-0.5">Bali right now</p>
+        <p className="text-xs font-bold text-white/90 leading-none">{weather.temp}°C · {label}</p>
+      </div>
+    </motion.div>
+  );
+}
+
+// --- PACKING CHECKLIST ---
+const PACKING_CATEGORIES = [
+  { cat: 'Documents', emoji: '📄', items: [
+    'Passport / ID card',
+    'Flight ticket (printed or saved offline)',
+    'Villa booking confirmation',
+    'Travel insurance',
+    'Cash (IDR) + backup card',
+    'Emergency contacts note',
+  ]},
+  { cat: 'Clothing', emoji: '👕', items: [
+    'Casual outfits (3–4 sets)',
+    'Swimwear (bring 2 — one always dries)',
+    'Shorts & light pants',
+    'Sandals & sneakers',
+    'Hat & sunglasses',
+    'Light jacket or hoodie (AC can be brutal)',
+    'Underwear & socks (pack extra)',
+  ]},
+  { cat: 'Toiletries', emoji: '🧴', items: [
+    'Sunscreen SPF 50+ (reapply often)',
+    'After-sun lotion / aloe vera',
+    'Soap, shampoo & conditioner',
+    'Toothbrush & toothpaste',
+    'Deodorant',
+    'Personal medication',
+    'Motion sickness meds (for winding roads)',
+    'Insect repellent',
+    'Hand sanitizer',
+    'Feminine hygiene products (if needed)',
+  ]},
+  { cat: 'Electronics', emoji: '📱', items: [
+    'Chargers for all devices',
+    'Power bank (fully charged)',
+    'Camera / GoPro + memory cards',
+    'Earphones / AirPods',
+    'Universal adapter (Indonesia uses Type C/F)',
+    'Waterproof phone pouch',
+  ]},
+  { cat: 'Beach & Activities', emoji: '🏖️', items: [
+    'Swim goggles',
+    'Beach towel (villa may not provide extras)',
+    'Dry bag (protect phone & wallet)',
+    'Spare flip flops',
+    'Waterproof sandals for snorkeling',
+    'Rash guard (sun protection in the water)',
+  ]},
+  { cat: 'Health & Safety', emoji: '🩺', items: [
+    'Basic first aid: plasters, antiseptic',
+    'Paracetamol / ibuprofen',
+    'Antidiarrheal (Bali belly is real)',
+    'Oral rehydration salts',
+    'Allergy medication (if applicable)',
+    'Eye drops (dusty roads)',
+  ]},
+  { cat: 'For Parents with Kids', emoji: '👶', items: [
+    'Kid-safe sunscreen SPF 50+',
+    'Baby / kids insect repellent',
+    'Swim floaties or arm bands',
+    'Portable snacks & juice boxes',
+    'Favorite small toy or comfort item',
+    'Extra change of clothes (pack more than you think)',
+    'Wet wipes & extra diapers (if needed)',
+    'Baby carrier or compact stroller',
+    'Kids paracetamol / fever meds',
+    'Waterproof sandals for kids',
+  ]},
+];
+
+const ALL_ITEMS = PACKING_CATEGORIES.flatMap(c => c.items);
+const STORAGE_KEY = 'bali-packing-2026';
+
+function PackingChecklist() {
+  const [checked, setChecked] = useState<Record<string, boolean>>(() => {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}'); }
+    catch { return {}; }
+  });
+
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(checked));
+  }, [checked]);
+
+  const toggle = (item: string) =>
+    setChecked(prev => ({ ...prev, [item]: !prev[item] }));
+
+  const doneCount = ALL_ITEMS.filter(i => checked[i]).length;
+  const pct = Math.round((doneCount / ALL_ITEMS.length) * 100);
+
+  return (
+    <div>
+      {/* Progress bar */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between text-xs font-semibold mb-1.5">
+          <span className="text-muted-foreground">{doneCount} of {ALL_ITEMS.length} packed</span>
+          <span className={pct === 100 ? 'text-emerald-500' : 'text-primary'}>{pct}%</span>
+        </div>
+        <div className="h-2 bg-muted rounded-full overflow-hidden">
+          <motion.div
+            className={cn("h-full rounded-full", pct === 100 ? 'bg-emerald-400' : 'bg-primary')}
+            initial={{ width: 0 }}
+            animate={{ width: `${pct}%` }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          />
+        </div>
+        {pct === 100 && (
+          <p className="text-xs text-emerald-500 font-semibold mt-2">All packed. Let's gooo 🎉</p>
+        )}
+      </div>
+
+      <div>
+            <div className="space-y-5 pb-2">
+              {PACKING_CATEGORIES.map(cat => (
+                <div key={cat.cat}>
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-widest mb-2.5">
+                    {cat.emoji} {cat.cat}
+                  </p>
+                  <div className="space-y-1.5">
+                    {cat.items.map(item => (
+                      <label key={item} className="flex items-center gap-3 cursor-pointer group">
+                        <div
+                          onClick={() => toggle(item)}
+                          className={cn(
+                            "w-4 h-4 rounded flex items-center justify-center border-2 shrink-0 transition-all",
+                            checked[item]
+                              ? 'bg-primary border-primary'
+                              : 'border-border group-hover:border-primary/50'
+                          )}
+                        >
+                          {checked[item] && (
+                            <svg className="w-2.5 h-2.5 text-white" viewBox="0 0 10 10" fill="none">
+                              <path d="M1.5 5L4 7.5L8.5 2.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </div>
+                        <span
+                          onClick={() => toggle(item)}
+                          className={cn(
+                            "text-sm transition-all",
+                            checked[item] ? 'line-through text-muted-foreground' : 'text-foreground'
+                          )}
+                        >
+                          {item}
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {doneCount > 0 && (
+              <button
+                onClick={() => setChecked({})}
+                className="mt-4 text-xs text-muted-foreground hover:text-destructive transition-colors"
+              >
+                Reset all
+              </button>
+            )}
+          </div>
+    </div>
+  );
+}
+
 // --- COUNTDOWN ---
 function Countdown({ targetDate }: { targetDate: string }) {
   const time = useCountdown(targetDate);
@@ -233,6 +447,7 @@ export default function App() {
   const containerRef = useRef(null);
   const [activeDay, setActiveDay] = useState(1);
   const [calendarOpen, setCalendarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState<'itinerary' | 'packing'>('itinerary');
   const currentDay = data.itinerary.find(d => d.day === activeDay)!;
 
   return (
@@ -266,7 +481,7 @@ export default function App() {
             </motion.h1>
             <motion.p initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.9 }}
               className="text-slate-400 text-sm sm:text-base max-w-sm mx-auto lg:mx-0 leading-relaxed">
-              Counting down to paradise. Here's the complete itinerary for our trip.
+              Bali is waiting. Here's the full game plan.
             </motion.p>
             <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 1.1 }}>
               <Countdown targetDate={data.targetDate} />
@@ -288,14 +503,17 @@ export default function App() {
             </motion.div>
           </motion.div>
 
-          {/* RIGHT — Globe */}
+          {/* RIGHT — Map with weather overlay */}
           <motion.div
             initial={{ opacity: 0, scale: 0.88 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1.2, delay: 0.4, ease: "easeOut" }}
-            className="flex-1 w-full h-[320px] sm:h-[420px] lg:h-full"
+            className="flex-1 w-full lg:h-full"
           >
-            <HeroMap />
+            <div className="relative w-full h-[320px] sm:h-[420px] lg:h-full">
+              <WeatherWidget />
+              <HeroMap />
+            </div>
           </motion.div>
         </div>
 
@@ -311,11 +529,36 @@ export default function App() {
       <main className="w-full max-w-2xl mx-auto px-4 sm:px-6 pt-14 sm:pt-20 pb-24">
 
         {/* Section header */}
-        <div className="mb-10 sm:mb-12">
-          <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary mb-2">Itinerary</p>
-          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">The Plan — YMMA.</h2>
+        <div className="mb-8 sm:mb-10">
+          <p className="text-[10px] sm:text-xs font-bold uppercase tracking-[0.22em] text-primary mb-2">
+            {activeTab === 'itinerary' ? 'Itinerary' : 'Preparation'}
+          </p>
+          <h2 className="text-3xl sm:text-4xl font-black tracking-tight">
+            {activeTab === 'itinerary' ? 'The Plan — YMMA.' : 'Packing Checklist'}
+          </h2>
         </div>
 
+        {/* Tabs */}
+        <div className="flex gap-1 bg-muted rounded-xl p-1 mb-10 sm:mb-12">
+          {(['itinerary', 'packing'] as const).map(tab => (
+            <button
+              key={tab}
+              onClick={() => setActiveTab(tab)}
+              className={cn(
+                "flex-1 py-2 px-4 rounded-lg text-sm font-semibold transition-all capitalize",
+                activeTab === tab
+                  ? 'bg-white shadow-sm text-foreground'
+                  : 'text-muted-foreground hover:text-foreground'
+              )}
+            >
+              {tab === 'itinerary' ? '🗓 Itinerary' : '🎒 Packing'}
+            </button>
+          ))}
+        </div>
+
+        {activeTab === 'packing' && <PackingChecklist />}
+
+        {activeTab === 'itinerary' && <>
         {/* Day tabs */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3 mb-10 sm:mb-12">
           {data.itinerary.map((day) => {
@@ -420,6 +663,8 @@ export default function App() {
             })}
           </motion.div>
         </AnimatePresence>
+
+        </>}
 
         {/* Footer */}
         <div className="mt-16 pt-10 border-t border-border/40 flex flex-col items-center gap-4 text-center">
