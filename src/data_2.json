@@ -1,0 +1,85 @@
+{
+  "targetDate": "2026-06-12T04:00:00",
+  "itinerary": [
+    {
+      "day": 1,
+      "date": "June 12, 2026",
+      "activities": [
+        {
+          "id": "1-2b",
+          "time": "06:00 WIB",
+          "title": "Flight OTW Bali ✈️",
+          "description": "Sit back, relax, and enjoy the flight — Bali is just around two hours away. Get some rest or grab a snack!",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+        },
+        {
+          "id": "1-3",
+          "time": "09:00 WITA",
+          "title": "Arrival at Ngurah Rai",
+          "description": "Collect your luggage at the carousel and don't forget to take a group photo at the iconic 'Welcome to Bali' sign!",
+          "mapsUrl": "https://www.google.com/maps/search/?api=1&query=I+Gusti+Ngurah+Rai+International+Airport"
+        },
+        {
+          "id": "1-free",
+          "time": "09:00 - 24:00 WITA",
+          "title": "The Rest is Yours",
+          "description": "No plans, no schedules, no one telling you where to be. Go wherever the wind takes you — Bali is yours for the day.",
+          "mapsUrl": ""
+        }
+      ]
+    },
+    {
+      "day": 2,
+      "date": "June 13, 2026",
+      "activities": [
+        {
+          "id": "2-free",
+          "time": "07:00 - 24:00 WITA",
+          "title": "All Yours — No Strings Attached",
+          "description": "Wake up whenever. Go wherever. Do whatever. No agenda, no itinerary, no rules. Just you and Bali.",
+          "mapsUrl": ""
+        }
+      ]
+    },
+    {
+      "day": 3,
+      "date": "June 14, 2026",
+      "activities": [
+        {
+          "id": "3-free",
+          "time": "07:00 - 24:00 WITA",
+          "title": "Own the Day",
+          "description": "No direction, no obligations. Go explore, go rest, go get lost — whatever feels right. The day is wide open.",
+          "mapsUrl": ""
+        }
+      ]
+    },
+    {
+      "day": 4,
+      "date": "June 15, 2026",
+      "activities": [
+        {
+          "id": "4-free",
+          "time": "07:00 - 15:00 WITA",
+          "title": "Last Run — Make It Count",
+          "description": "Final hours in Bali. No agenda, no rush. Squeeze in whatever you haven't done yet — or just do nothing. Either way, soak it all in.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-6",
+          "time": "15:00 WITA",
+          "title": "Flight OTW Jakarta ✈️",
+          "description": "We're up in the air. Sit back, relax, and let the Bali vibes marinate one last time before reality hits.",
+          "mapsUrl": ""
+        },
+        {
+          "id": "4-7",
+          "time": "17:00 WIB",
+          "title": "Touchdown Jakarta",
+          "description": "We made it back safe and sound. Welcome home, everyone. Jakarta hits different after Bali.",
+          "mapsUrl": ""
+        }
+      ]
+    }
+  ]
+}

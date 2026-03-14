@@ -4,7 +4,7 @@ import { MapPin, Plane, UtensilsCrossed, Home, Car, Waves, Camera, CalendarDays,
 import { Button } from '@/components/ui/button';
 import { useCountdown } from '@/hooks/useCountdown';
 import { HeroMap } from '@/components/HeroMap';
-import data from '@/data.json';
+import data from '@/data_2.json'; // switch: data.json | data_2.json
 import { cn } from '@/lib/utils';
 
 // --- CATEGORY ---
