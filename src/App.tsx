@@ -666,12 +666,7 @@ export default function App() {
 
         </>}
 
-        {/* Footer */}
-        <div className="mt-16 pt-10 border-t border-border/40 flex flex-col items-center gap-4 text-center">
-          <p className="text-xs sm:text-sm text-muted-foreground max-w-lg leading-relaxed">
-            Heads up — <strong>this plan is lowkey flexible.</strong> Stuff happens, vibes shift, and we roll with it. No cap. But don't be that person who ghosts the group schedule and leaves everyone hanging. Read the room, manage your time, and let's keep it W for the whole squad. 🤙
-          </p>
-        </div>
+        {/* Footer hidden */}
       </main>
 
       <AnimatePresence>
